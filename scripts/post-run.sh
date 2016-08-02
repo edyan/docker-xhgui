@@ -1,4 +1,10 @@
 #!/bin/bash
+# Right Permissions
+usermod -u $FPM_UID www-data
+groupmod -g $FPM_GID www-data
+chown www-data: /var/log/php
+
+
 # Define indexes for mongodb
 for i in $(seq 1 90); do
     mongo --eval "printjson(db.serverStatus())" > /dev/null 2>&1
