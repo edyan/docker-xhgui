@@ -41,9 +41,6 @@ COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 VOLUME ["/data/db", "/usr/local/src/xhgui"]
 
-ENV FPM_UID 33
-ENV FPM_GID 33
-
 EXPOSE 80 27017
 
 

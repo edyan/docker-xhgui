@@ -2,7 +2,7 @@
 # Right Permissions
 usermod -u $FPM_UID www-data
 groupmod -g $FPM_GID www-data
-chown www-data: /var/log/php
+chown -R www-data: /var/log/php /usr/local/src/xhgui
 
 
 # Define indexes for mongodb
