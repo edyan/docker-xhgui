@@ -7,11 +7,11 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
 
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
 
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git mongodb-server nginx supervisor && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates git mongodb-server nginx supervisor && \
 
     cd /usr/local/src && git clone https://github.com/perftools/xhgui && rm -Rf xhgui/.git && \
 
-    DEBIAN_FRONTEND=noninteractive apt-get purge git -y  && \
+    DEBIAN_FRONTEND=noninteractive apt-get purge ca-certificates git -y  && \
     DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && \
     DEBIAN_FRONTEND=noninteractive apt-get clean && \
     rm -Rf /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/*
