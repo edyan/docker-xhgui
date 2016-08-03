@@ -1,8 +1,9 @@
 #!/bin/bash
+
 # Right Permissions
 usermod -u $FPM_UID www-data
 groupmod -g $FPM_GID www-data
-chown -R www-data: /var/log/php /usr/local/src/xhgui
+chown -R www-data:www-data /var/log/php /usr/local/src/xhgui
 
 
 # Define indexes for mongodb
@@ -28,6 +29,7 @@ db.results.ensureIndex( { 'profile.main().mu' : -1 } )
 
 db.results.ensureIndex( { 'profile.main().cpu' : -1 } )
 db.results.ensureIndex( { 'meta.url' : 1 } )
+db.results.ensureIndex( { "meta.request_ts" : 1 }, { expireAfterSeconds : 432000 } )
 EOF
 
 exit 0
