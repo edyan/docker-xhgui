@@ -11,10 +11,11 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
 
     cd /usr/local/src && git clone https://github.com/perftools/xhgui && rm -Rf xhgui/.git && \
 
-    DEBIAN_FRONTEND=noninteractive apt-get purge ca-certificates git -y  && \
+    DEBIAN_FRONTEND=noninteractive apt-get purge git -y  && \
     DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && \
     DEBIAN_FRONTEND=noninteractive apt-get clean && \
     rm -Rf /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/*
+
 
 # Installing XhGui
 COPY conf/xhgui.config.php /usr/local/src/xhgui/config/config.php
