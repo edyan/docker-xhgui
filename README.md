@@ -1,4 +1,4 @@
-# iNet Process PHP FPM Docker Image
+# Xhgui docker image
 Docker Hub: https://hub.docker.com/r/edyan/xhgui
 
 Docker containers that runs [xhgui](https://github.com/perftools/xhgui) (which needs mongodb, nginx and PHP). It's based on [inetprocess/php:5.6](https://github.com/inetprocess/docker-php/tree/master/5.6) image (jessie stable).
