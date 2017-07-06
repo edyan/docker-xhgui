@@ -1,18 +1,18 @@
 # iNet Process PHP FPM Docker Image
-Docker Hub: https://hub.docker.com/r/inetprocess/xhgui
+Docker Hub: https://hub.docker.com/r/edyan/xhgui
 
 Docker containers that runs [xhgui](https://github.com/perftools/xhgui) (which needs mongodb, nginx and PHP). It's based on [inetprocess/php:5.6](https://github.com/inetprocess/docker-php/tree/master/5.6) image (jessie stable).
 
 It's made for development purposes.
 
-To use it in an integrated environment, try our [Docker LAMP stack](https://github.com/inetprocess/docker-lamp)
+To use it in an integrated environment, try our [Docker LAMP stack](https://github.com/inetprocess/marina)
 
 
 ## Run Docker image
 Add the following to your docker-compose.yml file:
 ```yaml
 xhgui:
-    image: inetprocess/xhgui
+    image: edyan/xhgui
 ```
 
 Of course, you'll not mount your PHP sources to that image (**it's really not made for that**). So you need to link your `php` container to that one. Example:
