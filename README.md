@@ -1,7 +1,7 @@
 # Xhgui docker image
 Docker Hub: https://hub.docker.com/r/edyan/xhgui
 
-Docker containers that runs [xhgui](https://github.com/perftools/xhgui) (which needs mongodb, nginx and PHP). It's based on [inetprocess/php:5.6](https://github.com/inetprocess/docker-php/tree/master/5.6) image (jessie stable).
+Docker containers that runs [xhgui](https://github.com/perftools/xhgui) (which needs mongodb, nginx and PHP). It's based on [edyan/php:5.6](https://github.com/inetprocess/docker-php/tree/master/5.6) image (jessie stable).
 
 It's made for development purposes and is not compatible yet with PHP 7.x (missing old mongo extension). 
 
@@ -68,7 +68,7 @@ If you want to profile *everything* then you must override the second one, by al
 auto_prepend_file=/usr/local/src/xhgui/external/header.php
 ```
 
-If you use [inetprocess/php](https://github.com/inetprocess/docker-php) you can override the configuration.
+If you use [edyan/php](https://github.com/inetprocess/docker-php) you can override the configuration.
 See the [documentation](https://github.com/inetprocess/docker-php#custom-phpini-directives)
 
 
