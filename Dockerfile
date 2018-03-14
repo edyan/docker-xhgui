@@ -22,7 +22,7 @@ RUN         apt-get update && \
 # Installing XhGui
 COPY        conf/xhgui.config.php /usr/local/src/xhgui/config/config.php
 
-WORKDIR /usr/local/src/xhgui
+WORKDIR     /usr/local/src/xhgui
 # Install composer
 RUN         php -r "copy('https://getcomposer.org/download/1.5.1/composer.phar', 'composer.phar');" && \
             php -r "if (hash_file('SHA384', 'composer.phar') === 'fd3800adeff12dde28e9238d2bb82ba6f887bc6d718eee3e3a5d4f70685a236b9e96afd01aeb0dbab8ae6211caeb1cbe') {echo 'Composer installed';} else {echo 'Hash invalid for downloaded composer.phar'; exit(1);}" && \
