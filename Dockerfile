@@ -1,18 +1,18 @@
 FROM        edyan/php:5.6
 MAINTAINER  Emmanuel Dyan <emmanuel.dyan@inetprocess.com>
 
-ENV         DEBIAN_FRONTEND noninteractive
+ARG         DEBIAN_FRONTEND=noninteractive
 
-# Upgrade the system, install packages, clone xhgui, remove git
+# Installation
 RUN         apt-get update && \
-
+            # Upgrade the system
             apt-get upgrade -y && \
-
+            # Install packages
             apt-get install -y --no-install-recommends ca-certificates git mongodb-server nginx supervisor && \
-
+            # Clone xhgui
             git clone https://github.com/perftools/xhgui /usr/local/src/xhgui && \
             rm -Rf /usr/local/src/xhgui/{.git,tests,phpunit.xml} && \
-
+            # Clean
             apt-get purge git -y  && \
             apt-get autoremove -y && \
             apt-get clean && \
@@ -55,7 +55,7 @@ VOLUME      ["/usr/local/src/xhgui"]
 EXPOSE      80 27017
 
 
-COPY scripts/post-run.sh /root/post-run.sh
-RUN  chmod +x /root/post-run.sh
+COPY        scripts/post-run.sh /root/post-run.sh
+RUN         chmod +x /root/post-run.sh
 
-CMD ["/usr/bin/supervisord", "-n"]
+CMD         ["/usr/bin/supervisord", "-n"]
