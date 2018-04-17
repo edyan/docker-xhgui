@@ -3,8 +3,7 @@
 # Right Permissions
 usermod -u $FPM_UID www-data
 groupmod -g $FPM_GID www-data
-chown -R www-data:www-data /var/log/php /usr/local/src/xhgui
-
+chown -R www-data:www-data /usr/local/src/xhgui /var/log/php /var/log/nginx
 
 # Define indexes for mongodb
 for i in $(seq 1 90); do
