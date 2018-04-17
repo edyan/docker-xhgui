@@ -1,11 +1,15 @@
 # Xhgui docker image
 Docker Hub: https://hub.docker.com/r/edyan/xhgui
 
-Docker containers that runs [xhgui](https://github.com/perftools/xhgui) (which needs mongodb, nginx and PHP). It's based on [edyan/php:5.6](https://github.com/inetprocess/docker-php/tree/master/5.6) image (jessie stable).
+Docker containers that runs [xhgui](https://github.com/perftools/xhgui) (which needs mongodb, nginx and PHP).
 
-It's made for development purposes and is not compatible yet with PHP 7.x (missing old mongo extension). 
+It's based on :
+* [edyan/php:5.6](https://github.com/inetprocess/docker-php/tree/master/5.6) image (jessie stable).
+* or [edyan/php:7.2](https://github.com/inetprocess/docker-php/tree/master/7.2) image (stretch stable).
 
-To use it in an integrated environment, try our [Docker LAMP stack](https://github.com/inetprocess/marina)
+It's made for development purposes.
+
+To use it in an integrated environment, try [Stakkr](https://github.com/edyan/stakkr)
 
 
 ## Run Docker image
