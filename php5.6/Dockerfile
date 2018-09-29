@@ -47,6 +47,9 @@ RUN         apt-get update && \
             apt-get clean && \
             rm -rf /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/* /var/cache/* /var/log/*
 
+# Remove default run.sh
+RUN         rm -f /run.sh
+
 
 # Prepare Mongodb
 RUN         mkdir -p /data/db /var/log/mongodb && \

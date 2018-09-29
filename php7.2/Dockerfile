@@ -47,6 +47,8 @@ RUN         apt update && \
             apt clean && \
             rm -rf /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/* /var/cache/* /var/log/*
 
+# Remove default run.sh
+RUN         rm -f /run.sh
 
 # Prepare Mongodb
 RUN         mkdir -p /data/db /var/log/mongodb && \
@@ -55,7 +57,7 @@ RUN         mkdir -p /data/db /var/log/mongodb && \
 
 # Prepare nginx
 COPY        conf/nginx.default.conf /etc/nginx/sites-available/default
-RUN         mkdir /var/log/nginx && \
+RUN         mkdir /var/log/nginx /var/log/php && \
             chown -R www-data:www-data /var/log/nginx
 
 # Supervisord

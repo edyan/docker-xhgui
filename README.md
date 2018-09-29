@@ -19,18 +19,19 @@ To make it work, you need to link it to an existing PHP environment. Example via
 version: '2'
 services:
   xhgui:
-    image: edyan/xhgui
+    image: edyan/xhgui:7.2
     # I need to access xhgui
     ports:
       - "9000:80"
     volumes:
       - ./xhgui-config.php:/usr/local/src/xhgui/config/config.php
-      - ./src:/var/www
   php:
     hostname: php
     image: edyan/php:7.2
     # To have the new mounted volumes as well as the default volumes of xhgui (its source code)
     volumes_from: [xhgui]
+    volumes:
+      - ./src:/var/www
 
   # the "visible" part (web server)
   web:
@@ -68,7 +69,7 @@ return array(
 );
 ```
 
-And the `index.php` :
+And the `src/index.php`:
 ```php
 <?php
 
@@ -78,7 +79,7 @@ echo strtoupper('abc');
 ```
 
 Finally, launch the environment with : `docker-compose up --force-recreate`.
-Then call _http://localhost:8000/index.php_ in your browser and then get reports from _http://localhost:9000_.
+Then call _http://localhost:8000/index.php_ in your browser and  get reports from _http://localhost:9000_.
 
 
 
