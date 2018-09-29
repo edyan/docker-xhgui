@@ -9,31 +9,43 @@ It's based on :
 
 It's made for development purposes.
 
-To use it in an integrated environment, try [Stakkr](https://github.com/edyan/stakkr)
+To use it in an integrated environment, try [Stakkr](https://github.com/stakkr-org/stakkr)
 
 
 ## Run Docker image
-Add the following to your docker-compose.yml file:
+To make it work, you need to link it to an existing PHP environment. Example via `docker-compose.yml` :
+
 ```yaml
-xhgui:
+version: '2'
+services:
+  xhgui:
     image: edyan/xhgui
-```
-
-Of course, you'll not mount your PHP sources to that image (**it's really not made for that**). So you need to link your `php` container to that one. Example:
-
-```yaml
-php:
-    links:
-        - xhgui
-    # To have the sources of xhgui mounted to your php container
-    volumes_from: [xhgui]
+    # I need to access xhgui
+    ports:
+      - "9000:80"
     volumes:
-        # Local configuration to override the one which connects in local
-        - ./config.php:/usr/local/src/xhgui/config/config.php
+      - ./xhgui-config.php:/usr/local/src/xhgui/config/config.php
+      - ./src:/var/www
+  php:
+    hostname: php
+    image: edyan/php:7.2
+    # To have the new mounted volumes as well as the default volumes of xhgui (its source code)
+    volumes_from: [xhgui]
+
+  # the "visible" part (web server)
+  web:
+    hostname: web
+    image: edyan/apache:2.4-slim
+    ports:
+      - "8000:80"
+    volumes:
+      # /var/www is my default document root in that image
+      - ./src:/var/www
 
 ```
 
-As seen above, you need to mount your own configuration file that connects to the **right** mongodb server. The file, in our case (see the [official xhgui repo](https://github.com/perftools/xhgui)), will contain (*note the db.host*):
+
+As seen above, you need to mount your own configuration file that connects to the **right** mongodb server. The `xhgui-config.php` file, in our case (see the [official xhgui repo](https://github.com/perftools/xhgui)), will contain (*note the db.host*):
 ```php
 <?php
 return array(
@@ -55,6 +67,20 @@ return array(
     }
 );
 ```
+
+And the `index.php` :
+```php
+<?php
+
+require_once('/usr/local/src/xhgui/external/header.php');
+
+echo strtoupper('abc');
+```
+
+Finally, launch the environment with : `docker-compose up --force-recreate`.
+Then call _http://localhost:8000/index.php_ in your browser and then get reports from _http://localhost:9000_.
+
+
 
 ## Call the profiler
 ### With require_once
