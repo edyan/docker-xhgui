@@ -1,0 +1,65 @@
+file:
+  /etc/nginx/sites-available/default:
+    exists: true
+    mode: "0664"
+    filetype: file
+    contains:
+    - 127.0.0.1:9000
+    - index.php
+    - root /usr/local/src/xhgui/webroot
+  /usr/local/src/xhgui/config/config.php:
+    exists: true
+    mode: "0664"
+    owner: www-data
+    group: www-data
+    filetype: file
+    contains:
+    - mongodb://127.0.0.1
+package:
+  mongodb-server:
+    installed: true
+    versions:
+    - 1:2.4.10-5+deb8u1
+  nginx:
+    installed: true
+    versions:
+    - 1.6.2-5+deb8u5
+  php5-fpm:
+    installed: true
+    versions:
+    - 5.6.38+dfsg-0+deb8u1
+  supervisor:
+    installed: true
+    versions:
+    - 3.0r1-1+deb8u1
+  curl:
+    installed: false
+port:
+  tcp:80:
+    listening: true
+    ip:
+    - 0.0.0.0
+  tcp:9000:
+    listening: true
+    ip:
+    - 0.0.0.0
+  tcp:27017:
+    listening: true
+    ip:
+    - 0.0.0.0
+process:
+  mongod:
+    running: true
+  nginx:
+    running: true
+  php5-fpm:
+    running: true
+  supervisord:
+    running: true
+http:
+  http://127.0.0.1:
+    status: 200
+    timeout: 5000
+    body:
+    - Recent runs
+    - test.php
