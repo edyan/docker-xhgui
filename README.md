@@ -19,7 +19,7 @@ To make it work, you need to link it to an existing PHP environment. Example via
 version: '2'
 services:
   xhgui:
-    image: edyan/xhgui:7.2
+    image: edyan/xhgui:php7.2
     # I need to access xhgui
     ports:
       - "9000:80"
