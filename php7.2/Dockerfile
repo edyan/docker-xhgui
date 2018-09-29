@@ -28,11 +28,11 @@ RUN         apt update && \
 
 
 # Installing XhGui
-WORKDIR     /usr/local/src/xhgui
 COPY        conf/xhgui.config.php /usr/local/src/xhgui/config/config.php
 # Install composer
 RUN         apt update && \
             apt install -y --no-install-recommends curl && \
+            cd /usr/local/src/xhgui && \
             curl https://getcomposer.org/download/1.6.4/composer.phar -s -S -o composer.phar && \
             chmod 0755 composer.phar && \
             ./composer.phar selfupdate --stable && \
@@ -73,6 +73,8 @@ EXPOSE      80 27017
 ENV         FPM_UID 33
 ENV         FPM_GID 33
 
+COPY        tests/test.php /root/test.php
+RUN         chmod +x /root/test.php
 COPY        post-run.sh /root/post-run.sh
 RUN         chmod +x /root/post-run.sh
 
