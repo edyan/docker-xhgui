@@ -2,7 +2,7 @@
 
 set -e
 
-if [ -z "$1" -o ! -d "php$1" ]; then
+if [ -z "php$1" -o ! -d "php$1" ]; then
     echo "You must define a valid PHP version to build as parameter (5.6 or 7.2)"
     exit 1
 fi
