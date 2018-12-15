@@ -1,5 +1,5 @@
 # Xhgui docker image
-[![Build Status](https://travis-ci.org/edyan/docker-xhgui.svg?branch=master)](https://travis-ci.org/edyan/docker-xhgui)
+[![Build Status](https://travis-ci.com/edyan/docker-xhgui.svg?branch=master)](https://travis-ci.com/edyan/docker-xhgui)
 [![Docker Pulls](https://img.shields.io/docker/pulls/edyan/xhgui.svg)](https://hub.docker.com/r/edyan/xhgui/)
 
 
