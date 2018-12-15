@@ -19,19 +19,23 @@ package:
   mongodb-server:
     installed: true
     versions:
-    - 1:3.6.3-0ubuntu1
+      contain-element:
+        match-regexp: "1:3.6.+ubuntu[.0-9]+"
   nginx:
     installed: true
     versions:
-    - 1.14.0-0ubuntu1.1
+      contain-element:
+        match-regexp: "1.14.+ubuntu[.0-9]+"
   php7.2-fpm:
     installed: true
     versions:
-    - 7.2.10-0ubuntu0.18.04.1
+      contain-element:
+        match-regexp: "7.2.+ubuntu[.0-9]+"
   supervisor:
     installed: true
     versions:
-    - 3.3.1-1.1
+      contain-element:
+        match-regexp: "3.3.+"
   curl:
     installed: false
 port:
