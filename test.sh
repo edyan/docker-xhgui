@@ -19,4 +19,5 @@ docker build -t "edyan_xhgui_${VERSION}_test" .
 echo ""
 echo -e "${GREEN}Testing version ${VERSION} ${NC}"
 cd ${DIRECTORY}/${VERSION}/tests
+export GOSS_FILES_STRATEGY=cp
 dgoss run "edyan_xhgui_${VERSION}_test"

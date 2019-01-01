@@ -1,17 +1,15 @@
 sudo: required
 
 language: shell
-
-services:
-  - docker
-
-env:
-  - GOSS_FILES_STRATEGY=cp
-
+services: [docker]
 script:
-  - sudo apt-get update
-  # Don't do that else it's too slow : - sudo apt-get upgrade
-  - sudo apt-get install -y --no-install-recommends curl
+  #
+  # Don't do that as curl is already installed
+  # - sudo apt-get upgrade
+  # - sudo apt-get update
+  # - sudo apt-get install -y --no-install-recommends curl
+  #
+  # Do tests
   - curl -fsSL https://goss.rocks/install | sudo sh
   - ./test.sh php5.6
   - ./test.sh php7.2
