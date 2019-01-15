@@ -7,7 +7,7 @@ chown -R www-data:www-data /usr/local/src/xhgui /var/log/php /var/log/nginx
 
 # Define indexes for mongodb
 for i in $(seq 1 90); do
-    mongo --eval "printjson(db.serverStatus())" > /dev/null 2>&1
+    mongo --port $MONGO_PORT --eval "printjson(db.serverStatus())" > /dev/null 2>&1
     if [ $? -eq 0 ]; then
         break
     fi
@@ -20,7 +20,7 @@ for i in $(seq 1 90); do
     sleep 1
 done
 
-mongo > /dev/null 2>&1 <<EOF
+mongo --port $MONGO_PORT > /dev/null 2>&1 <<EOF
 use xhprof
 db.results.ensureIndex( { 'meta.SERVER.REQUEST_TIME' : -1 } )
 db.results.ensureIndex( { 'profile.main().wt' : -1 } )

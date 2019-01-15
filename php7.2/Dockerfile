@@ -8,7 +8,7 @@ RUN         apt update && \
             # Upgrade the system
             apt upgrade -y && \
             # Install packages
-            apt install -y --no-install-recommends ca-certificates git mongodb-server nginx supervisor && \
+            apt install -y --no-install-recommends ca-certificates git mongodb-server nginx gettext-base supervisor && \
             # Clone xhgui and install 0.7.1, then remove useless files
             git clone https://github.com/perftools/xhgui /usr/local/src/xhgui && \
             cd /usr/local/src/xhgui && \
@@ -60,6 +60,9 @@ COPY        conf/nginx.default.conf /etc/nginx/sites-available/default
 RUN         mkdir /var/log/nginx /var/log/php && \
             chown -R www-data:www-data /var/log/nginx
 
+# Prepare phpfpm
+COPY        conf/www.conf /etc/php/7.2/fpm/pool.d/www.conf 
+
 # Supervisord
 RUN         mkdir -p /var/log/supervisor
 COPY        conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -68,14 +71,17 @@ COPY        conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Global directives
 VOLUME      ["/usr/local/src/xhgui"]
 
-EXPOSE      80 27017
-
 ENV         FPM_UID 33
 ENV         FPM_GID 33
+ENV         NGINX_PORT 80
+ENV         MONGO_PORT 27017
+ENV         PHPFPM_PORT 9000
 
 COPY        tests/test.php /root/test.php
 RUN         chmod +x /root/test.php
 COPY        post-run.sh /root/post-run.sh
 RUN         chmod +x /root/post-run.sh
+COPY        entrypoint.sh /root/entrypoint.sh
+RUN         chmod +x /root/entrypoint.sh
 
-CMD         ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+ENTRYPOINT ["/root/entrypoint.sh"]
