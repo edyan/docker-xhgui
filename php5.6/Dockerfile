@@ -57,12 +57,12 @@ RUN         mkdir -p /data/db /var/log/mongodb && \
 
 
 # Prepare nginx
-COPY        conf/nginx.default.conf /etc/nginx/sites-available/default
+COPY        conf/nginx.default.conf /etc/nginx/sites-available/default.template
 RUN         mkdir /var/log/nginx && \
             chown -R www-data:www-data /var/log/nginx
 
 # Prepare phpfpm
-COPY        conf/www.conf /etc/php5/fpm/pool.d/www.conf
+COPY        conf/www.conf /etc/php5/fpm/pool.d/www.conf.template
 
 # Supervisord
 RUN         mkdir -p /var/log/supervisor
