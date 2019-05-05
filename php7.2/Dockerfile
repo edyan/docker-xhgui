@@ -4,10 +4,10 @@ FROM    composer:1.8 AS xhgui
 RUN     composer global require hirak/prestissimo --no-plugins --no-scripts
 
 # Install mongodb extension
-RUN     apk add --no-cache alpine-sdk openssl-dev php7-dev && \
-        pecl install mongodb && pecl clear-cache && \
-        apk del alpine-sdk openssl-dev php7-dev
-RUN     echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini
+RUN     set -x && \
+        apk add --no-cache --virtual .build-deps ${PHPIZE_DEPS} && \
+	    pecl install mongodb && docker-php-ext-enable mongodb && \
+        apk del .build-deps
 
 # Clone xhgui and install master as there is no suitable tag, then remove useless files
 RUN     git clone https://github.com/perftools/xhgui /usr/local/src/xhgui && \
@@ -27,8 +27,10 @@ WORKDIR /usr/local/src/xhgui
 
 RUN     sed -i 's/composer\.phar install --prefer-dist/composer.phar install --prefer-dist --no-dev/g' install.php && \
         php install.php && \
-        rm -f composer.phar && \
-        chown -R www-data:www-data /usr/local/src/xhgui
+        # required as php > 7 and driver = mongodb
+        /usr/bin/composer require --update-no-dev --no-scripts alcaeus/mongo-php-adapter ^1.1 && \
+        # clean
+        rm -f composer.phar
 
 
 # Build the final container
@@ -37,29 +39,24 @@ MAINTAINER  Emmanuel Dyan <emmanueldyan@gmail.com>
 
 ARG         DEBIAN_FRONTEND=noninteractive
 
-COPY        --from=xhgui /usr/local/src/xhgui /usr/local/src/xhgui
+COPY        --from=xhgui --chown=www-data:www-data /usr/local/src/xhgui /usr/local/src/xhgui
 
 # Install tools
 RUN         apt update && \
             # Upgrade the system
             apt upgrade -y && \
-            # Install packages
-            apt install -y mongodb-server nginx supervisor && \
+            # Install packages needed by xhgui and that container
+            apt install -y mongodb-server-core supervisor && \
             # Clean
             apt autoremove -y && \
             apt autoclean && \
             apt clean && \
             rm -rf /root/.bashrc /root/.profile /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/* /var/cache/* /var/log/*
 
-# Prepare Mongodb, nginx, supervisord
-COPY        conf/nginx.default.conf /etc/nginx/sites-available/default
+# Prepare Mongodb, supervisord
 COPY        conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN         mkdir -p /data/db /var/log/mongodb && \
-            chown -R mongodb:mongodb /data /var/log/mongodb && \
-            # Nginx
-            mkdir /var/log/nginx && \
-            chown -R www-data:www-data /var/log/nginx && \
             # Supervisord
             mkdir -p /var/log/supervisor
 
@@ -69,8 +66,7 @@ VOLUME      ["/usr/local/src/xhgui"]
 
 EXPOSE      80 27017
 
-ENV         FPM_UID 33
-ENV         FPM_GID 33
+ENV         XHGUI_MONGO_HOST "mongodb://127.0.0.1"
 
 COPY        tests/test.php /root/test.php
 COPY        post-run.sh /root/post-run.sh

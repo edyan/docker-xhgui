@@ -3,7 +3,7 @@ return array(
     'debug' => false,
     'mode' => 'development',
     'save.handler' => 'mongodb',
-    'db.host' => 'mongodb://127.0.0.1',
+    'db.host' => getenv('XHGUI_MONGO_HOST') ?: 'mongodb://127.0.0.1',
     'db.db' => 'xhprof',
     'db.options' => array(),
     'templates.path' => dirname(__DIR__) . '/src/templates',

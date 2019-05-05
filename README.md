@@ -8,8 +8,8 @@ Docker Hub: https://hub.docker.com/r/edyan/xhgui
 Docker containers that runs [xhgui](https://github.com/perftools/xhgui) (which needs mongodb, nginx and PHP).
 
 It's based on :
-* [edyan/php:5.6](https://github.com/inetprocess/docker-php/tree/master/5.6) image (jessie stable).
-* or [edyan/php:7.2](https://github.com/inetprocess/docker-php/tree/master/7.2) image (stretch stable).
+* [edyan/php:5.6](https://github.com/edyan/docker-php/tree/master/5.6) image (jessie stable).
+* or [edyan/php:7.2](https://github.com/edyan/docker-php/tree/master/7.2) image (stretch stable).
 
 It's made for development purposes.
 
@@ -34,6 +34,8 @@ services:
     image: edyan/php:7.2
     # To have the new mounted volumes as well as the default volumes of xhgui (its source code)
     volumes_from: [xhgui]
+    environment:
+      XHGUI_MONGO_HOST: "mongodb://xhgui"
     volumes:
       - ./src:/var/www
 
@@ -103,9 +105,26 @@ If you want to profile *everything* then you must override the second one, by al
 auto_prepend_file=/usr/local/src/xhgui/external/header.php
 ```
 
-If you use [edyan/php](https://github.com/inetprocess/docker-php) you can override the configuration.
-See the [documentation](https://github.com/inetprocess/docker-php#custom-phpini-directives)
+If you use [edyan/php](https://github.com/edyan/docker-php) you can override the configuration.
+See the [documentation](https://github.com/edyan/docker-php#custom-phpini-directives)
 
 
-## Environment variables
-Two variables have been created (`FPM_UID` and `FPM_GID`) to override the www-data user and group ids. Giving the current user login / pass that runs the container, it will allow anybody to own the files read / written by the fpm daemon (started by www-data).
+## Test
+A `docker-compose` file is available to do some tests: 
+```bash
+$ docker-compose -f docker-compose.sample.yml up --force-recreate -d 
+# Enter the php container
+$ docker-compose -f docker-compose.sample.yml exec php bash
+# Create a file
+$ mkdir -p /var/www
+# As we didn't mount the configuration file, we force the env variable for the server
+$ echo '<?php putenv("XHGUI_MONGO_HOST=mongodb://xhgui"); require_once("/usr/local/src/xhgui/external/header.php"); $a=[]; for($i=0; $i<10000; $i++){ $a[]=$i; } sort($a); echo "Done";' > /var/www/index.php
+```
+
+Now open http://localhost:8000/index.php to read the new file created.
+Then http://localhost:9000 to see the report.
+
+Clean : 
+```bash
+$ docker-compose -f docker-compose.sample.yml down 
+```

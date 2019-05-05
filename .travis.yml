@@ -13,3 +13,4 @@ script:
   - curl -fsSL https://goss.rocks/install | sudo sh
   - ./test.sh php5.6
   - ./test.sh php7.2
+  - ./test.sh php7.3
