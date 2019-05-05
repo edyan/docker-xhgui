@@ -40,7 +40,7 @@ services:
   # the "visible" part (web server)
   web:
     hostname: web
-    image: edyan/apache:2.4-slim
+    image: edyan/nginx:1.15-alpine
     ports:
       - "8000:80"
     volumes:
