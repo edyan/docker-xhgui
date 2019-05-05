@@ -1,7 +1,6 @@
 file:
   /etc/nginx/sites-available/default:
     exists: true
-    mode: "0664"
     filetype: file
     contains:
     - 127.0.0.1:9000
@@ -9,7 +8,6 @@ file:
     - root /usr/local/src/xhgui/webroot
   /usr/local/src/xhgui/config/config.php:
     exists: true
-    mode: "0664"
     owner: www-data
     group: www-data
     filetype: file

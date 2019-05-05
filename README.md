@@ -109,6 +109,12 @@ If you use [edyan/php](https://github.com/edyan/docker-php) you can override the
 See the [documentation](https://github.com/edyan/docker-php#custom-phpini-directives)
 
 
+## Environment variables
+* `XHGUI_MONGO_HOST` default to `mongodb://127.0.0.1`, used in XHGui config file.
+* `MONGO_PORT` default to 27017
+* `PHP_WEBSERVER_PORT` default to 80
+
+
 ## Test
 A `docker-compose` file is available to do some tests: 
 ```bash

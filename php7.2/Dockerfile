@@ -66,7 +66,9 @@ VOLUME      ["/usr/local/src/xhgui"]
 
 EXPOSE      80 27017
 
-ENV         XHGUI_MONGO_HOST "mongodb://127.0.0.1"
+ENV         XHGUI_MONGO_HOST   "mongodb://127.0.0.1"
+ENV         MONGO_PORT         27017
+ENV         PHP_WEBSERVER_PORT 80
 
 COPY        tests/test.php /root/test.php
 COPY        post-run.sh /root/post-run.sh

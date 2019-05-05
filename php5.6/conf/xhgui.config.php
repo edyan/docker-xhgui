@@ -1,9 +1,10 @@
 <?php
+$mongoPort = getenv('MONGO_PORT');
 return array(
     'debug' => false,
     'mode' => 'development',
     'save.handler' => 'mongodb',
-    'db.host' => 'mongodb://127.0.0.1',
+    'db.host' => "mongodb://127.0.0.1:$mongoPort",
     'db.db' => 'xhprof',
     'db.options' => array(),
     'templates.path' => dirname(__DIR__) . '/src/templates',
