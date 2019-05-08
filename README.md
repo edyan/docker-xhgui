@@ -5,18 +5,20 @@
 
 Docker Hub: https://hub.docker.com/r/edyan/xhgui
 
-Docker containers that runs [xhgui](https://github.com/perftools/xhgui) (which needs mongodb, nginx and PHP).
+Docker containers that runs [xhgui](https://github.com/perftools/xhgui) (which needs mongodb and PHP).
 
 It's based on :
 * [edyan/php:5.6](https://github.com/edyan/docker-php/tree/master/5.6) image (jessie stable).
 * or [edyan/php:7.2](https://github.com/edyan/docker-php/tree/master/7.2) image (stretch stable).
 
-It's made for development purposes.
+It's made for development purposes. You need to find the right version for your project.
+Use 5.6 for PHP 5.6 projects and 7.2 for PHP 7.x projects. Just make sure you have the 
+`mongodb` extension enabled (v1.5) on your main PHP container.  
 
 To use it in an integrated environment, try [Stakkr](https://github.com/stakkr-org/stakkr)
 
 
-## Run Docker image
+## Example
 To make it work, you need to link it to an existing PHP environment. Example via `docker-compose.yml` :
 
 ```yaml
@@ -31,11 +33,9 @@ services:
       - ./xhgui-config.php:/usr/local/src/xhgui/config/config.php
   php:
     hostname: php
-    image: edyan/php:7.2
+    image: edyan/php:7.2 # That image contains mongodb extension from PECL
     # To have the new mounted volumes as well as the default volumes of xhgui (its source code)
     volumes_from: [xhgui]
-    environment:
-      XHGUI_MONGO_HOST: "mongodb://xhgui"
     volumes:
       - ./src:/var/www
 
@@ -85,7 +85,8 @@ echo strtoupper('abc');
 ```
 
 Finally, launch the environment with : `docker-compose up --force-recreate`.
-Then call _http://localhost:8000/index.php_ in your browser and  get reports from _http://localhost:9000_.
+Then call _http://localhost:8000/index.php_ in your browser and  get reports 
+from _http://localhost:9000_.
 
 
 
@@ -95,6 +96,7 @@ You have two ways to call the profiler. The first one, the most easiest, is to r
 For that **you must mount the volumes (with `volumes_from`) of the xhgui container to your php container**. The code is the following:
 ```php
 <?php
+
 require_once('/usr/local/src/xhgui/external/header.php');
 // ... Code below
 ```
@@ -115,7 +117,7 @@ See the [documentation](https://github.com/edyan/docker-php#custom-phpini-direct
 * `PHP_WEBSERVER_PORT` default to 80
 
 
-## Test
+## Quick Test
 A `docker-compose` file is available to do some tests: 
 ```bash
 $ docker-compose -f docker-compose.sample.yml up --force-recreate -d 

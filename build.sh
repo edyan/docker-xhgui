@@ -15,7 +15,7 @@ TAG=edyan/xhgui:${VERSION}
 cd $1
 
 echo "Building ${TAG}"
-docker build -t ${TAG} .
+docker build --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') -t ${TAG} .
 if [[ "$VERSION" == "php7.2" ]]; then
   echo ""
   echo "${TAG} will also be tagged 'latest'"

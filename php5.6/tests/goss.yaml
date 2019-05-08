@@ -1,11 +1,4 @@
 file:
-  /etc/nginx/sites-available/default:
-    exists: true
-    filetype: file
-    contains:
-    - 127.0.0.1:9000
-    - index.php
-    - root /usr/local/src/xhgui/webroot
   /usr/local/src/xhgui/config/config.php:
     exists: true
     owner: www-data
@@ -19,11 +12,6 @@ package:
     versions:
       contain-element:
         match-regexp: "1:2.4.+deb8u[0-9]+"
-  nginx:
-    installed: true
-    versions:
-      contain-element:
-        match-regexp: "1.6.+deb8u[0-9]+"
   php5-fpm:
     installed: true
     versions:
@@ -34,14 +22,8 @@ package:
     versions:
       contain-element:
         match-regexp: "3.+deb8u[0-9]+"
-  curl:
-    installed: false
 port:
   tcp:80:
-    listening: true
-    ip:
-    - 0.0.0.0
-  tcp:9000:
     listening: true
     ip:
     - 0.0.0.0
@@ -51,8 +33,6 @@ port:
     - 0.0.0.0
 process:
   mongod:
-    running: true
-  nginx:
     running: true
   php5-fpm:
     running: true

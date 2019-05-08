@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Right Permissions
-usermod -u $FPM_UID www-data
-groupmod -g $FPM_GID www-data
-chown -R www-data:www-data /usr/local/src/xhgui /var/log/php /var/log/nginx
-
 # Define indexes for mongodb
 for i in $(seq 1 90); do
     mongo --port $MONGO_PORT --eval "printjson(db.serverStatus())" > /dev/null 2>&1
