@@ -3,12 +3,10 @@ port:
     listening: true
   tcp:80:
     listening: true
-  tcp:9000:
-    listening: true
 command:
   /root/test.php:
     exit-status: 0
     stdout:
-    - ABC
+      - ABC
     stderr: []
     timeout: 10000

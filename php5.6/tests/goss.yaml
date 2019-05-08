@@ -34,7 +34,7 @@ port:
 process:
   mongod:
     running: true
-  php5-fpm:
+  php:
     running: true
   supervisord:
     running: true

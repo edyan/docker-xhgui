@@ -33,20 +33,13 @@ services:
       - ./xhgui-config.php:/usr/local/src/xhgui/config/config.php
   php:
     hostname: php
+    command: /usr/bin/php -S 0.0.0.0:80 -t /var/www
     image: edyan/php:7.2 # That image contains mongodb extension from PECL
     # To have the new mounted volumes as well as the default volumes of xhgui (its source code)
     volumes_from: [xhgui]
-    volumes:
-      - ./src:/var/www
-
-  # the "visible" part (web server)
-  web:
-    hostname: web
-    image: edyan/nginx:1.15-alpine
     ports:
       - "8000:80"
     volumes:
-      # /var/www is my default document root in that image
       - ./src:/var/www
 
 ```
@@ -81,7 +74,17 @@ And the `src/index.php`:
 
 require_once('/usr/local/src/xhgui/external/header.php');
 
-echo strtoupper('abc');
+function test_xhgui()
+{
+    $data = [];
+    for ($i = 0; $i < 5000; $i++) {
+        $data[] = $i * $i;
+        sort($data);
+    }
+}
+
+test_xhgui();
+
 ```
 
 Finally, launch the environment with : `docker-compose up --force-recreate`.
