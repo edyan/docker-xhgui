@@ -1,7 +1,7 @@
 ### Step 1 : clone repo
 FROM    alpine/git AS xhgui_sources
 # Clone xhgui and install master as there is no suitable tag, then remove useless files
-RUN     git clone --depth 1 https://github.com/perftools/xhgui /usr/local/src/xhgui && \
+RUN     git clone -b 0.12.0 --depth 1 https://github.com/perftools/xhgui /usr/local/src/xhgui && \
         cd /usr/local/src/xhgui && \
         rm -rf /usr/local/src/xhgui/.git \
                /usr/local/src/xhgui/.scrutinizer.yml \

@@ -1,7 +1,7 @@
 ### Step 1 : clone repo
 FROM    alpine/git AS xhgui_sources
 # Clone xhgui and install master as there is no suitable tag, then remove useless files
-RUN     git clone --depth 1 https://github.com/perftools/xhgui /usr/local/src/xhgui && \
+RUN     git clone -b 0.13.0 --depth 1 https://github.com/perftools/xhgui /usr/local/src/xhgui && \
         cd /usr/local/src/xhgui && \
         rm -rf /usr/local/src/xhgui/.git \
                /usr/local/src/xhgui/.scrutinizer.yml \
@@ -25,7 +25,6 @@ RUN         composer global require hirak/prestissimo --no-plugins --no-scripts 
             ln -s /usr/bin/composer composer.phar && \
             sed -i 's/composer\.phar install --prefer-dist/composer.phar install --prefer-dist --no-dev/g' install.php && \
             php install.php && \
-            composer require --update-no-dev --no-scripts alcaeus/mongo-php-adapter ^1.1 && \
             rm -f composer.phar
 
 
