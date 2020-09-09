@@ -12,7 +12,7 @@ RUN     git clone -b 0.13.0 --depth 1 https://github.com/perftools/xhgui /usr/lo
 
 
 ### Step 2 : Build project with composer
-FROM        edyan/php:7.2 as xhgui_built
+FROM        edyan/php:7.4 as xhgui_built
 COPY        --from=xhgui_sources --chown=www-data:www-data /usr/local/src/xhgui /usr/local/src/xhgui
 COPY        --from=composer:1.8  --chown=www-data:www-data /usr/bin/composer /usr/bin/composer
 COPY        --chown=www-data:www-data conf/xhgui.config.php /usr/local/src/xhgui/config/config.php
@@ -30,7 +30,7 @@ RUN         composer global require hirak/prestissimo --no-plugins --no-scripts 
 
 
 ### Step 3 : Build the final container
-FROM        edyan/php:7.2
+FROM        edyan/php:7.4
 
 ARG         BUILD_DATE
 ARG         DEBIAN_FRONTEND=noninteractive
@@ -47,17 +47,17 @@ RUN         apt-get update && \
             # Install packages needed by xhgui and that container
             apt-get install -y mongodb-server-core mongodb-clients supervisor libcap2-bin && \
             # Alllow user to open port 80
-            setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/php7.2 && \
+            setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/php7.4 && \
             # Install a few extensions with PECL instead of distro ones
             apt-get install -qq -y \
                 build-essential \
-                php-pear php7.2-dev pkg-config zlib1g-dev && \
+                php-pear php7.4-dev pkg-config zlib1g-dev && \
             pecl channel-update pecl.php.net && \
             pecl -q install -f xhprof-2.1.3 && \
             # Clean
             apt-get purge -qq --autoremove -y \
                 build-essential libcap2-bin \
-                php-pear php7.2-dev pkg-config zlib1g-dev && \
+                php-pear php7.4-dev pkg-config zlib1g-dev && \
             apt-get autoremove -qq -y && \
             apt-get autoclean -qq && \
             apt-get clean -qq && \

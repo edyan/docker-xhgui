@@ -1,0 +1,12 @@
+port:
+  tcp:27017:
+    listening: true
+  tcp:80:
+    listening: true
+command:
+  /root/test.php:
+    exit-status: 0
+    stdout:
+    - ABC
+    stderr: []
+    timeout: 10000
