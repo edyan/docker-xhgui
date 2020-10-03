@@ -1,9 +1,11 @@
+---
+
 package:
-  mongodb-server-core:
+  mongodb-org-server:
     installed: true
     versions:
       contain-element:
-        match-regexp: "1:3.6.+ubuntu[.0-9]+"
+        match-regexp: "4.4[.0-9]+"
   php7.2-fpm:
     installed: true
     versions:

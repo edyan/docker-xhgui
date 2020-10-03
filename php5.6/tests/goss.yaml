@@ -1,3 +1,5 @@
+---
+
 file:
   /usr/local/src/xhgui/config/config.php:
     exists: true
