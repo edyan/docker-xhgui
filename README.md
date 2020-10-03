@@ -9,13 +9,13 @@ Docker containers that runs [xhgui](https://github.com/perftools/xhgui) (which n
 
 It's based on :
 * [edyan/php:5.6](https://github.com/edyan/docker-php/tree/master/5.6) image (jessie stable).
-* or [edyan/php:7.2](https://github.com/edyan/docker-php/tree/master/7.2) image (stretch stable).
-* or [edyan/php:7.4](https://github.com/edyan/docker-php/tree/master/7.4) image (stretch stable).
+* or [edyan/php:7.2](https://github.com/edyan/docker-php/tree/master/7.2) image (Ubuntu 18.04).
+* or [edyan/php:7.4](https://github.com/edyan/docker-php/tree/master/7.4) image (Ubuntu 20.04).
 Use that one as a preview version, xhgui is not officially compatible with PHP > 7.3
 
 It's made for development purposes. You need to find the right version for your project.
 Use 5.6 for PHP 5.6 projects and 7.2 / 7.4 for PHP 7.x projects. Just make sure you have the
-`mongodb` extension enabled (v1.5) on your main PHP container.
+`mongodb` extension enabled on your main PHP container.
 
 To use it in an integrated environment, try [Stakkr](https://github.com/stakkr-org/stakkr)
 
