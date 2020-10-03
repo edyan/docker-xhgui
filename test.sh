@@ -12,12 +12,10 @@ VERSION=${1}
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
-cd ${DIRECTORY}/${VERSION}
-docker build -t "edyan_xhgui_${VERSION}_test" .
-
+./build.sh ${VERSION}
 
 echo ""
 echo -e "${GREEN}Testing version ${VERSION} ${NC}"
 cd ${DIRECTORY}/${VERSION}/tests
 export GOSS_FILES_STRATEGY=cp
-dgoss run "edyan_xhgui_${VERSION}_test"
+dgoss run "edyan/xhgui:${VERSION}"

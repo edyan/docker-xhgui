@@ -1,6 +1,5 @@
 ### Step 1 : clone repo
 FROM    alpine/git AS xhgui_sources
-# Clone xhgui and install master as there is no suitable tag, then remove useless files
 RUN     git clone -b 0.12.0 --depth 1 https://github.com/perftools/xhgui /usr/local/src/xhgui && \
         cd /usr/local/src/xhgui && \
         rm -rf /usr/local/src/xhgui/.git \
@@ -14,7 +13,7 @@ RUN     git clone -b 0.12.0 --depth 1 https://github.com/perftools/xhgui /usr/lo
 ### Step 2 : Build project with composer
 FROM        edyan/php:5.6 as xhgui_built
 COPY        --from=xhgui_sources --chown=www-data:www-data /usr/local/src/xhgui /usr/local/src/xhgui
-COPY        --from=composer:1.8  --chown=www-data:www-data /usr/bin/composer /usr/bin/composer
+COPY        --from=composer:1.10  --chown=www-data:www-data /usr/bin/composer /usr/bin/composer
 COPY        --chown=www-data:www-data conf/xhgui.config.php /usr/local/src/xhgui/config/config.php
 
 WORKDIR     /usr/local/src/xhgui

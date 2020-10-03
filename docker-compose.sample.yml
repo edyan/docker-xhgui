@@ -2,18 +2,16 @@ version: '2'
 services:
   xhgui:
     image: edyan/xhgui:php7.2
-    # I need to access xhgui, it'll be on port 9000
+    # I need to access xhgui
     ports:
       - "9000:80"
   php:
     hostname: php
-    image: edyan/php:7.2
-    # To have the new mounted volumes as well as the default volumes of xhgui (its source code)
+    command: /usr/bin/php -S 0.0.0.0:80 -t /var/www
+    image: edyan/php:7.2 # That image contains mongodb extension from PECL
+    # To have xhgui sources mount xhgui's volumes
     volumes_from: [xhgui]
-
-  # the "visible" part (web server)
-  web:
-    hostname: web
-    image: edyan/nginx:1.15-alpine
     ports:
       - "8000:80"
+    volumes:
+      - "./src:/var/www"
